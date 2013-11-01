@@ -1,0 +1,15 @@
+CACHE MANIFEST
+
+index.html
+page2.html
+
+css/comments.css
+css/normalize.css
+
+images/alice_cheshire_cat.png
+images/mad-hatter.png
+
+js/comments.js
+js/persist.js
+js/libs/jquery-2.0.0.min.js
+js/libs/modernizr-latest.js

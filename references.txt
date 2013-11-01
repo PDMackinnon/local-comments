@@ -1,0 +1,11 @@
+references:
+
+http://html5doctor.com/html5-custom-data-attributes/
+
+http://diveintohtml5.info/storage.html
+
+http://todomvc.com/architecture-examples/jquery/
+
+http://html5boilerplate.com
+
+http://api.jquery.com/category/manipulation/
