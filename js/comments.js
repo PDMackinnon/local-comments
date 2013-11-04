@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+DJCADpersist.init("session");	//over-ride default so using session storage - change to suit
 
 
 var Comment = function (post) { // Comment javasript object Contructor

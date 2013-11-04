@@ -14,41 +14,86 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+/*
+	the DJCADpersist object below is intended to provide a uniform interface to storage of objects from a web app
+	this is designed for prototyping and demo purposes, rather than production
+	In the default config, localStorage API will be used
+	Alternatively if you want SessionStorage, first call:
+
+	DJCADpersist.init("session");
+
+	or alternatively turn off the data persistance with:
+
+	DJCADpersist.init("none");
+
+	As yet no implementation for web storage so don't use that, or else implement the backend first... (noSQL perhaps ? MongoDB for example)
+
+	to save an object:
+	DJCADpersist.persist(key,obj);
+
+	to restore the object:
+	obj = DJCADpersist.restore(key);
+	
+*/
+
+var DJCADpersist = {
+	init: function(type) {
+		if ((type == "local" && Modernizr.localstorage) || (type =="session" && Modernizr.sessionstorage) || type == "none" || type =="web") {
+		this.persist = this[type].persist;	//strategy pattern
+		this.restore = this[type].restore;
+		}
+		else {
+		this.persist = this.none.persist;	//safe fail...
+		this.restore = this.none.restore;
+		}//end if else
+		return this;
+	},
+	localStoreEnabled: Modernizr.localstorage, //alias to library that tests if API is enabled
+	sessionStoreEnabled: Modernizr.sessionstorage, //alias to library that tests if API is enabled
+	websqlStoreEnabled: Modernizr.websqldatabase, //alias to library that tests if API is enabled
+	indexedDBStoreEnabled: Modernizr.indexeddb, //alias to library that tests if API is enabled
+	
+	local: {
+		//////////////////////////////////////////////////////////
+		persist: function(key,obj){
+				localStorage[key] = JSON.stringify(obj);		
+		},//end function
 
 
-var localStoreEnabled;
-if (Modernizr.localstorage) {
- // alert("loacal storage is good!")
- localStoreEnabled = true;
- 
-} else {
-  // no native support for HTML5 storage :(
-  alert("no storage for web app is available. all added conted will be lost");
-  localStoreEnabled = false;
-}//end if else
-
-//////////////////////////////////////////////////////////////////////////////////
-
-
-function persist(key,obj){
-	if (localStoreEnabled) {
-		// refactor completley as general case
+		restore: function(key) {
+			var k = localStorage[key];
+			var obj;
+			if (k) { obj = JSON.parse(k); }
+			return obj;		
+		}//end function
 		
-		localStorage[key] = JSON.Stringify(obj);		
+	},
+	session: {
+		//////////////////////////////////////////////////////////
+		persist: function(key,obj){		
+				sessionStorage[key] = JSON.stringify(obj);			
+		},//end function
+
+
+		restore: function(key) {
+			var k = sessionStorage[key];
+			var obj;
+			if (k) { obj = JSON.parse(k); }
+			return obj;			
+		}//end function
 		
-	}//end if
-	
-}//end function
+	},
+	none: {
+		persist: function(key,obj){}, //nothing
+		restore: function(key) {}
+		
+	},
+	web: {
+		//TODO
+		persist: function(key,obj){}, //nothing yet ...
+		restore: function(key) {}
+	}
+}.init("local");
 
-
-function restore(key) {
-if (localStoreEnabled) {
-	
-	var obj = JSON.parse(localStorage[key]);
-	
-	return obj;		
-	
-	}//end if
-return false;
-}//end function
+////////////////////////////////////////////////////////////
 
