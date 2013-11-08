@@ -1,15 +1,22 @@
 CACHE MANIFEST
 
 index.html
-page2.html
+page.html
+upload.html
 
 css/comments.css
 css/normalize.css
+css/upload.css
 
 images/alice_cheshire_cat.png
 images/mad-hatter.png
 
 js/comments.js
 js/persist.js
+js/indexpages.js
+js/imagesUpload.js
+js/imagesApp.js
+js/DJCADpersist.js
+
 js/libs/jquery-2.0.0.min.js
 js/libs/modernizr-latest.js

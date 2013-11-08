@@ -92,6 +92,16 @@ var DJCADpersist = {
 		//TODO
 		persist: function(key,obj){}, //nothing yet ...
 		restore: function(key) {}
+	},
+	rndstr: function()
+	{
+	    var text = "";
+	    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	    for( var i=0; i < 5; i++ )
+	        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	    return text;
 	}
 }.init("local");
 

@@ -14,43 +14,47 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// DJCADpersist.init("session");	//over-ride default so using session storage - change to suit
 
-//DJCADpersist.init("local");	// this is default anyway...
+DJCADpersist.init("session");	//over-ride default so using session storage - change to suit
 
-
-//Content hard coded:
+//DJCADpersist.init("local");	// this is default...
 
 var Content = function (post) { // Content javasript object Contructor
 	this.post = post;
 };
 
-var contents = { //initialise object with 2 pages to poulate from code here
-	page1: [],
-	page2: []
-};
-
-contents["page1"] = new Content({
-	pageRef: "page1",
-	imgSrc: "images/alice_cheshire_cat.png",
-	headLineTxt: "Comments Please!!!"
-});
-
-contents["page2"] = new Content({
-	pageRef: "page2",
-	imgSrc: "images/mad-hatter.png",
-	headLineTxt: "Mad Hatter !!!"
-});
-
-// comments hard coded:
-
 var Comment = function (post) { // Comment javasript object Contructor
 	this.post = post;
 };
 
+var contents = { //initialise object
+};
+
+
+//Content hard coded:  (this time hard code into storage right away...)
+
+persistContent("page1", new Content({
+	pageRef: "page1",
+	imgSrc: "images/alice_cheshire_cat.png",
+	headLineTxt: "Comments Please!!!"
+}));
+
+persistContent("page2", new Content({
+	pageRef: "page2",
+	imgSrc: "images/mad-hatter.png",
+	headLineTxt: "Mad Hatter !!!"
+}));
+
+addPageIndex("page1");	//persist the set of pages
+addPageIndex("page2");
+
+
+// same as prev version....
+// comments hard coded:
 var comments = { //initialise object
 	page1: [],
-	page2: []
+	page2: [],
+	page3: []
 	
 };
 
@@ -62,7 +66,7 @@ comments["page1"].push(new Comment({
 	email: "J.Bloggs@example.com",
 	comment: "I really liked this post. It is the best thing I have seens for a while",
 	datetime: new Date()
-});
+}));
 
 comments["page1"].push(new Comment({
 	author: "Another Blogger",
@@ -76,7 +80,12 @@ comments["page2"].push(new Comment({
 	email: "J.Bloggs@example.com",
 	comment: "Can't get enough of these mad hatters",
 	datetime: new Date()
-});
+}));
+
+
+
+
+
 
 
 //get stored page of content:
@@ -91,6 +100,16 @@ restoreContent(page);
 restore(2,"page1");	// 2 because there are 2 dummy comments above (page1)
 restore(1,"page2"); // 1 for same reason above (page2)
 
+restore(0,"page3");  //temp test page3
+
+
+if (["page1","page2","page3"].indexOf(page) == -1) {// page is not one of these mockups
+comments[page] = []; //init comments array
+restore(0,page);  //actual user page we are on - not mocked up comments
+}
+
+
+
 $(function() { // this jquery closure ensures all contained will execute only after the page is 'ready'
 
 var p = window.location.search.substring(1).split("=")[1]; //obtains page ref from url query
@@ -98,9 +117,10 @@ var p = window.location.search.substring(1).split("=")[1]; //obtains page ref fr
 //display content 
 
 // theHeading
+$("#theHeading").text(contents[p].post.headLineTxt);
 
 // theImage
-
+$("#theImage").attr("src",contents[p].post.imgSrc);
 
 
 //init variables:

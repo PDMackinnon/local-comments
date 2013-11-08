@@ -14,6 +14,47 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+function getPageIndexs() {
+	return DJCADpersist.restore("pageIndexes");
+}
+
+
+//ref: http://stackoverflow.com/questions/7958292/mimicking-sets-in-javascript
+
+function addPageIndex(pageIndx) {//pageIndx string
+	
+	var pageIndxs = getPageIndexs(); //should be an object
+	
+	if (typeof pageIndxs === "undefined") { // first entry to be stored
+		pageIndxs = {}; //init object
+		}
+	
+	if (!(pageIndx in pageIndxs)) {
+		pageIndxs[pageIndx]=true;
+		DJCADpersist.persist("pageIndexes", pageIndxs);
+		return true; //added
+		}
+	else {
+		return false; //not added - no change
+		}//end if else	
+}//end function
+
+
+function restoreContent(page){
+
+contents[page] = (DJCADpersist.restore(page + ".content"));	//just restore saved object
+
+	
+}//end function
+
+function persistContent(pageRef, pageObj){
+	
+DJCADpersist.persist(pageRef + ".content", pageObj);
+	
+}//end function
+
+
+
 
 function persist(page, c, n){
 

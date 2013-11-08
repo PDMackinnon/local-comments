@@ -22,8 +22,37 @@ a {
 	height:30px;
 	padding-top:18px;
 	text-align:center;
- 
 }
+
+li span {
+	display:block;
+}
+
+li a {
+	display:inline;
+	text-align:left;
+	text-decoration:none;
+	color:white;
+	
+}
+
+ul {
+	padding:0;
+}
+
+
+li {
+	list-style-type:none;
+	margin:0; 
+	padding:0;
+	border-bottom: 4px solid #000000;
+	background: #a0a000;
+	
+}
+
+
+
+
 body {
 	font-family: sans-serif;
     
