@@ -107,3 +107,26 @@ var DJCADpersist = {
 
 ////////////////////////////////////////////////////////////
 
+// Listen for ALL links at the top level of the document. For
+// testing purposes, we're not going to worry about LOCAL vs.
+// EXTERNAL links - we'll just demonstrate the feature.
+// ref:
+//http://www.bennadel.com/blog/2302-preventing-links-in-standalone-iphone-applications-from-opening-in-mobile-safari.htm
+
+
+$( document ).on(
+	"click",
+	"a",
+	function( event ){
+
+		// Stop the default behavior of the browser, which
+		// is to change the URL of the page.
+		event.preventDefault();
+
+		// Manually change the location of the page to stay in
+		// "Standalone" mode and change the URL at the same time.
+		location.href = $( event.currentTarget ).attr( "href" );
+
+	}
+);
+
